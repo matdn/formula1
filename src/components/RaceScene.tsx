@@ -3,16 +3,28 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Plane } from "@react-three/drei";
 // import { Mesh } from "three";
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 const Vehicle = () => {
-  const vehicleRef = useRef<THREE.Mesh>(null);
+  const vehicleRef = useRef<any>(null);
   const { camera } = useThree();
+
+  const loader = new GLTFLoader();
+  loader.load("./glbs/formula1.glb", (gltf) => {
+    const model = gltf.scene;
+    model.scale.set(0.02, 0.02, 0.02); // Ajustez l'échelle du modèle selon vos besoins
+    model.position.set(-0.01, -0.1, 4.6);
+    model.rotation.y = (Math.PI / 180) * -145; // Position initiale du modèle
+    if (vehicleRef.current) {
+      vehicleRef.current.add(model);
+    }
+  });
 
   // Animation du véhicule (avancement)
   useFrame(() => {
     if (vehicleRef.current) {
       vehicleRef.current.position.z -= 0.1; // Vitesse de déplacement du véhicule
-      camera.position.z = vehicleRef.current.position.z + 5; // Réglez la position de la caméra pour suivre le véhicule
+      camera.position.z = vehicleRef.current.position.z + 5; // Position de la caméra pour suivre le véhicule
       camera.lookAt(
         vehicleRef.current.position.x,
         vehicleRef.current.position.y,
@@ -21,12 +33,7 @@ const Vehicle = () => {
     }
   });
 
-  return (
-    <mesh ref={vehicleRef} position={[0, -0.5, 0]} castShadow>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="blue" />
-    </mesh>
-  );
+  return <group ref={vehicleRef} />;
 };
 
 const Circuit = () => {
@@ -43,7 +50,7 @@ const Circuit = () => {
     canvas.height = window.innerHeight;
 
     // Dessiner le circuit avec des voies vertes et des pointillés
-    ctx.fillStyle = "#000"; // Couleur de fond (noir)
+    ctx.fillStyle = "#A39193"; // Couleur de fond (noir)
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Dessiner les voies vertes
@@ -67,10 +74,6 @@ const Circuit = () => {
   useFrame(() => {
     if (planeRef.current) {
       planeRef.current.position.z += 0.01;
-      setPlaneSize((prevSize) => ({
-        width: prevSize.width,
-        height: prevSize.height + 5,
-      })); // Vitesse de déplacement du circuit sur l'axe Z (inverse du véhicule)
     }
   });
 
@@ -78,13 +81,6 @@ const Circuit = () => {
     console.log(planeRef);
   }, [planeRef.current]);
   return (
-    // <Plane
-    //   ref={planeRef}
-    //   args={[10, 150]}
-    //   rotation={[-Math.PI / 2, 0, 0]}
-    //   position={[0, -1, 0]}
-    //   receiveShadow
-    // />
     <mesh receiveShadow position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
       <planeGeometry args={[planeSize.width, planeSize.height]} />
       <meshStandardMaterial map={planeTexture()} />
