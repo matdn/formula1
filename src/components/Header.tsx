@@ -1,13 +1,13 @@
+import FormulaView from "../views/three/formulaView";
+import "./Header.css";
 const Header = () => {
     return (
         <header className="header">
-            <div className="header-logo">
-                <h1>THREE FORMULA 1</h1>
-            </div>
             <nav className="header-nav">
             </nav>
+            <FormulaView></FormulaView>
         </header>
     );
 };
 
-    export default Header;
+export default Header;
