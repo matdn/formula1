@@ -1,16 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Plane } from "@react-three/drei";
+// import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
+
 // import { Mesh } from "three";
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { GLTFLoader, RGBELoader } from "three/examples/jsm/Addons.js";
+import Flames from "./Flame";
 
 const Vehicle = () => {
   const vehicleRef = useRef<any>(null);
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
   const wheelsRef = useRef<THREE.Mesh[]>([]);
   var model = new THREE.Group<THREE.Object3DEventMap>();
   var containerRBack = new THREE.Group();
+
+  // const rgbeLoader = new RGBELoader();
+  // rgbeLoader.load("/glbs/art.hdr", (environmentMap) => {
+  //   environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+  //   scene.background = environmentMap;
+  //   scene.environment = environmentMap;
+  // });
 
   useEffect(() => {
     const loader = new GLTFLoader();
@@ -31,7 +41,6 @@ const Vehicle = () => {
             //   clearcoat: 0.2,
             //   clearcoatRoughness: 0.5,
             // });
-            console.log(child);
 
             // model.remove(child);
             switch (child.name) {
@@ -46,6 +55,8 @@ const Vehicle = () => {
               case "Spoiler":
               case "Spoiler_Small":
               case "R_Inside_Rim_Back":
+              case "5_1":
+              case "4_1":
                 child.material = new THREE.MeshPhysicalMaterial({
                   color: 0x696969,
                   metalness: 1,
@@ -101,12 +112,12 @@ const Vehicle = () => {
       camera.position.z = vehicleRef.current.position.z + 5; // Position de la caméra pour suivre le véhicule
 
       // Smooth transition of camera position
-      // const targetX = vehicleRef.current.position.x - 5;
+      const targetX = vehicleRef.current.position.x - 5;
       // const targetY = vehicleRef.current.position.y + 2;
-      // const targetZ = vehicleRef.current.position.z + 5;
-      // camera.position.x += (targetX - camera.position.x) * 0.05; // Adjust the smoothing factor (0.05) as needed
+      const targetZ = vehicleRef.current.position.z + 5;
+      camera.position.x += (targetX - camera.position.x) * 0.05; // Adjust the smoothing factor (0.05) as needed
       // camera.position.y += (targetY - camera.position.y) * 0.05;
-      // camera.position.z += (targetZ - camera.position.z) * 0.05;
+      camera.position.z += (targetZ - camera.position.z) * 0.05;
       const radius = 5; // Adjust radius as needed
       const speed = 0.0005; // Adjust rotation speed as needed
       const angle = performance.now() * speed;
@@ -123,16 +134,21 @@ const Vehicle = () => {
       //   // wheel.rotation.reorder("XYZ");
       //   wheel.rotation.x -= 0.1; // Ajustez la vitesse de rotation selon vos besoins
       // });
-      containerRBack.position.y -= 0.5;
+      // containerRBack.position.y -= 0.5;
     }
   });
 
-  return <group ref={vehicleRef} />;
+  return (
+    <group ref={vehicleRef}>
+      <Flames position={new THREE.Vector3(0.2, -1, 3.35)} />
+      <Flames position={new THREE.Vector3(-0.2, -1, 3.35)} />
+    </group>
+  );
 };
 
 const Circuit = () => {
   const planeRef = useRef<THREE.Mesh>(null);
-  const [planeSize, setPlaneSize] = useState({ width: 10, height: 1500 });
+  const [planeSize, setPlaneSize] = useState({ width: 10, height: 5000 });
 
   const planeTexture = () => {
     const canvas = document.createElement("canvas");
