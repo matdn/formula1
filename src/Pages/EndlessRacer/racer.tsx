@@ -9,10 +9,13 @@ import {
   ExtrudeGeometry,
 } from "three";
 import GameCar from "../../views/three/components/GameCar";
+
+// Coin shape
 const createCoinShape = () => {
   return new CylinderGeometry(0.5, 0.5, 0.1, 32);
 };
 
+// Star shape
 const createStarShape = () => {
   const shape = new Shape();
   const outerRadius = 0.5;
@@ -162,6 +165,7 @@ const Game: React.FC<{
     }[]
   >([]);
   const [isInvincible, setIsInvincible] = useState(false);
+  const speed = useRef(0.2); // Speed of the obstacles
 
   const moveLeft = () => {
     playerPosition.current = Math.max(playerPosition.current - 4, -4);
@@ -230,18 +234,18 @@ const Game: React.FC<{
     setObstacles((prev) =>
       prev.map((obs) => ({
         ...obs,
-        position: [obs.position[0], obs.position[1], obs.position[2] + 0.1],
+        position: [obs.position[0], obs.position[1], obs.position[2] + speed.current],
       }))
     );
   });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setScore((prevScore) => prevScore + 1);
-    }, 1000);
+      setScore((prevScore) => prevScore + (isInvincible ? 2 : 1));
+    }, 1000); // Faster score increment when invincible
 
     return () => clearInterval(interval);
-  }, [setScore]);
+  }, [setScore, isInvincible]);
 
   return (
     <>
