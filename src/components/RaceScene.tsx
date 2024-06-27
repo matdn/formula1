@@ -198,7 +198,8 @@ const Circuit = () => {
 
 const RaceScene = () => {
   return (
-    <Canvas>
+   <div style={{height: "100vh", width:"100vw", position:"fixed"}}>
+     <Canvas>
       <ambientLight intensity={1} />
       <directionalLight position={[10, 10, 10]} intensity={1} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
@@ -206,6 +207,7 @@ const RaceScene = () => {
       <Circuit />
       <Vehicle />
     </Canvas>
+   </div>
   );
 };
 
