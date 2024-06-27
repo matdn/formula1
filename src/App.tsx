@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Header />} />
         <Route path="/game" element={<EndlessRacer />} />
-        <Route path="/game" element={<RaceScene />} />
+        <Route path="/gamePlay" element={<RaceScene />} />
        
       </Routes>
     </Router>

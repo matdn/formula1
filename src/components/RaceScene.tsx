@@ -182,14 +182,16 @@ const Circuit = () => {
 
 const RaceScene = () => {
   return (
-    <Canvas>
-      <ambientLight intensity={1} />
-      <directionalLight position={[10, 10, 10]} intensity={1} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-      {/* <OrbitControls /> */}
-      <Circuit />
-      <Vehicle />
-    </Canvas>
+    <div style={{ width: "100vw", height: "100vh" }}>
+      <Canvas style={{ width: "100%", height: "100%" }}>
+        <ambientLight intensity={1} />
+        <directionalLight position={[10, 10, 10]} intensity={1} />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+        {/* <OrbitControls /> */}
+        <Circuit />
+        <Vehicle />
+      </Canvas>
+    </div>
   );
 };
 
