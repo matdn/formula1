@@ -1,3 +1,7 @@
+*{
+  margin: 0;
+  padding: 0;
+}
 .game-over-screen {
     position: absolute;
     top: 50%;
@@ -5,7 +9,11 @@
     transform: translate(-50%, -50%);
     color: red;
     text-align: center;
-    font-family: 'Press Start 2P', cursive; /* Arcade-style font */
+    font-family: 'Poppin', cursive;
+  }
+
+  h1{
+    font-family: 'Poppin', cursive;
   }
   
   .flicker-button {
@@ -18,7 +26,11 @@
     animation: flicker 1s infinite;
     font-size: 32;
   }
-  
+  .score{
+    color: tomato;
+    padding: 2%;
+  }
+
   @keyframes flicker {
     0%, 100% {
       opacity: 1;
@@ -27,4 +39,4 @@
       opacity: 0;
     }
   }
-  
+

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import EndlessRacer from "../Pages/EndlessRacer/racer";
 import FormulaView from "../views/three/formulaView";
 import TextView from "../views/three/textView";
 import "./Header.css";

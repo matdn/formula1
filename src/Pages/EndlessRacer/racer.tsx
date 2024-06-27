@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { animated, useSpring } from "@react-spring/three";
+// import "./racer.css";
 import {
   CylinderGeometry,
   CircleGeometry,
@@ -234,7 +235,11 @@ const Game: React.FC<{
     setObstacles((prev) =>
       prev.map((obs) => ({
         ...obs,
-        position: [obs.position[0], obs.position[1], obs.position[2] + speed.current],
+        position: [
+          obs.position[0],
+          obs.position[1],
+          obs.position[2] + speed.current,
+        ],
       }))
     );
   });
@@ -300,19 +305,24 @@ const EndlessRacer: React.FC = () => {
         <>
           <div
             style={{
-              position: "absolute",
-              top: "10px",
-              left: "10px",
+              position: "fixed",
+              top: "0px",
+              left: "0px",
               color: "white",
+              height: "100vh",
+              width: "100vw",
             }}
           >
-            <h1>Score: {score}</h1>
+            <h1 className="score">Score: {score}</h1>
+            <Canvas
+              style={{ width: "100%", height: "100%" }}
+              camera={{ position: [0, 5, 10], fov: 50 }}
+            >
+              <ambientLight />
+              <pointLight position={[10, 10, 10]} />
+              <Game onGameOver={handleGameOver} setScore={setScore} />
+            </Canvas>
           </div>
-          <Canvas camera={{ position: [0, 5, 10], fov: 50 }}>
-            <ambientLight />
-            <pointLight position={[10, 10, 10]} />
-            <Game onGameOver={handleGameOver} setScore={setScore} />
-          </Canvas>
         </>
       )}
     </>
