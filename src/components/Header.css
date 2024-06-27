@@ -1,9 +1,24 @@
 .header{
     height: 100vh;
     width: 100%;
-    background-image: url("/assets/headerBackground.jpg");
+    background-image: url("/assets/headerBG.png");;
     background-size: cover;
     background-position: center;
     padding: 0;
     margin: 0;
+}
+.history{
+    height: 100vh;
+    width: 100%;
+    background-color: #e8e6e6;
+}
+.split{
+    height: 150vh;
+    width: 100%;
+    background-color: #e8e6e6;
+
+}
+.canvas{
+    top: 0;
+    left: 0;
 }
